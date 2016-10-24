@@ -82,32 +82,12 @@ player's active units to the list of acted units (i.e. "passes" the turn).
 '''
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #==============
 '''Constants'''
 #==============
 
 # windowDimensions: int * int
 # windowDimensions() is (800,1000).
-# first return value: number of pixels wide
-# second return value: number of pixels high
 def windowDimensions():
     return (800,1000)
 
@@ -120,36 +100,34 @@ def otherPlayer(S):
 
 # mapDimensions: int * int
 # mapDimensions() is (10,10)
-# the game will not function if the two return values are different
 def mapDimensions(): return (10,10)
 
 # cellWidth: int
 # cellWidth() is 60.
 def cellWidth():
-    return windowDimensions()[0]/13.333
+    return 60
 
 # buttonDimensions: int * int
 # buttonDimensions() is (60,60)
 def buttonDimensions():
-    return (windowDimensions()[0]/13.333,windowDimensions()[0]/13.333)
+    return (60,60)
 
 # verticalOffset: int
 # verticalOffset() is 150.
-# game will not function if changed
 def verticalOffset():
-    return windowDimensions()[1]/6.666
+    return 150
 
 # button1Area: Rectangle
 # button1Area() is an x * y rectangle with its top-left corner at (-230,-295),
 # where (x,y) is buttonDimensions().
 def button1Area():
-    return Rectangle(windowDimensions()[0]/-3.478, windowDimensions()[1]/-3.39, buttonDimensions()[0], buttonDimensions()[1])
+    return Rectangle(-230, -295, buttonDimensions()[0], buttonDimensions()[1])
 
 # button2Area: Rectangle
 # button2Area() is an x * y rectangle with its top-left corner at (170,-295),
 # where (x,y) is buttonDimensions().
 def button2Area():
-    return Rectangle(windowDimensions()[0]/4.706, windowDimensions()[1]/-3.39, buttonDimensions()[0], buttonDimensions()[1])
+    return Rectangle(170, -295, buttonDimensions()[0], buttonDimensions()[1])
 
 # board: Rectangle
 # board() is an h*w Rectangle with its center point at (0, verticalOffset()),
@@ -164,24 +142,6 @@ def board():
     h = rows * cellWidth()
     b = Rectangle(left,top,w,h)
     return b
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #============
@@ -454,28 +414,10 @@ class Attack(PlayerAction):
                     setLocation(self.v, None)
         setActed(getActed() | {self.u.index})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #============================
 '''Functions and Relations'''
 #============================
+
 
 # onBoard: unit * readState -> bool
 # If u is a unit, onBoard(u) iff the location of u is not None.
@@ -727,24 +669,6 @@ def unitInCell(C):
     return None
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #========================
 '''Game Loop Functions'''
 #========================
@@ -810,24 +734,6 @@ def allPlaced(p):
         if not onBoard(u):
             return False
     return True
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #==========
@@ -961,7 +867,7 @@ def button2():
 # If a cell C's interior has been game-clicked this frame, clickedCell() is
 # C. Otherwise, clickedCell() is None.
 def clickedCell():
-    root = (windowDimensions()[0]/-2.222, windowDimensions()[1]/-6.666)
+    root = (-360, -150)
     w = cellWidth()
     if gameClicked():
         for x in range(1,11):
@@ -970,24 +876,6 @@ def clickedCell():
                 if areaClicked(Rectangle(left, top, w, w)):
                     return (x,y)
     return None
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #====================================
@@ -1214,24 +1102,6 @@ def damage(U):
     return U.damage
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #====================
 '''Image Functions'''
 #====================
@@ -1291,7 +1161,7 @@ def statusMessage():
             msg = p + ", Move Your Units"
         else:
             msg = p + ", Attack with Your Units"
-    return [txt(msg, (0,windowDimensions()[1]/-2.222), int(windowDimensions()[0]/22.857), blackColor())]
+    return [txt(msg, (0,-450), 35, blackColor())]
 
 # frect: Rectangle * color -> list(image)
 # If R is a Rectangle and C is a color, then frect(R,C)
@@ -1453,10 +1323,10 @@ def cellCenter(c):
 def button1Image():
     if getCtrl() == "callToss":
         color = buttonColor()
-        message = txt("Heads", (windowDimensions()[0]/-4,windowDimensions()[1]/-3.077), int(windowDimensions()[0]/32), textColor())
+        message = txt("Heads", (-200,-325), 25, textColor())
     else:
         color = redColor()
-        message = txt("Red", (windowDimensions()[0]/-4,windowDimensions()[1]/-3.077), int(windowDimensions()[0]/32), blackColor())
+        message = txt("Red", (-200,-325), 25, blackColor())
     return frect(button1Area(), color) + [message]
 
 # button2Image: readState -> list(image)
@@ -1472,32 +1342,14 @@ def button1Image():
 def button2Image():
     if getCtrl() == "selectFirst":
         color = blackColor()
-        message = txt("Black", (windowDimensions()[0]/4,windowDimensions()[1]/-3.077), int(windowDimensions()[0]/32), redColor())
+        message = txt("Black", (200,-325), 25, redColor())
     else:
         color = buttonColor()
         if getCtrl() == "callToss":
-            message = txt("Tails", (windowDimensions()[0]/4,windowDimensions()[1]/-3.077), int(windowDimensions()[0]/32), textColor())
+            message = txt("Tails", (200,-325), 25, textColor())
         else:
-            message = txt("Pass", (windowDimensions()[0]/4,windowDimensions()[1]/-3.077), int(windowDimensions()[0]/32), textColor())
+            message = txt("Pass", (200,-325), 25, textColor())
     return frect(button2Area(), color) + [message]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #===========
