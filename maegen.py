@@ -109,7 +109,7 @@ player's active units to the list of acted units (i.e. "passes" the turn).
 # first return value: number of pixels wide
 # second return value: number of pixels high
 def windowDimensions():
-    return (800,1000)
+    return (400,500)
 
 # otherPlayer: player -> player
 # otherPlayer(S) is "black" if S is "red" and "red" otherwise.
@@ -1313,9 +1313,9 @@ def frect(R,C):
 # running along the outer edges of each cell.
 def mapGrid():
     out = []
-    for i in range(0,mapDimensions()[0]):
-        out += mapHorizSeg(i)
     for i in range(0,mapDimensions()[1]):
+        out += mapHorizSeg(i)
+    for i in range(0,mapDimensions()[0]):
         out += mapVertSeg(i)
     return out
 
