@@ -6,10 +6,6 @@ The file maegen.py represents the changes I made to the original maegenThacker.p
 [Python3](https://www.python.org/downloads/)
 [Easel.py](https://github.com/qianji/Easel_PY)
 
-# Issues
-- The 800x1000 window is so large that it will not fit on my screen (13" MacBook Air). The window cannot easily be resized.
-- There are constants defined outside the "Constants" section. Specifically, where the text for the buttons are rendered.
-
 # How to use
 Easel is by no means easy and straightforward to use.
 Here is how I got it working (Mac OS 10.12.1)
