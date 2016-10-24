@@ -8,6 +8,7 @@ The file maegen.py represents the changes I made to the original maegenThacker.p
 
 # Issues
 - The 800x1000 window is so large that it will not fit on my screen (13" MacBook Air). The window cannot easily be resized.
+- There are constants defined outside the "Constants" section. Specifically, where the text for the buttons are rendered.
 
 # How to use
 Easel is by no means easy and straightforward to use.
