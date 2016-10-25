@@ -2,6 +2,10 @@
 The file maegenThacker.py was written by [Isiah Thacker](https://github.com/ThackerCI).
 The file maegen.py represents the changes I made to the original maegenThacker.py
 
+The music and sounds for the "slingers" came from Dune II
+The music for the swordsman came from Quest for Glory 5
+The sounds for the swordsman came from Warcraft II
+
 # Dependencies
 [Python3](https://www.python.org/downloads/)
 [Easel.py](https://github.com/qianji/Easel_PY)

@@ -1,6 +1,7 @@
 from EaselLib import *
 from random import choice
 from math import sqrt
+import sqlite3
 
 '''
 MAEGEN:
@@ -80,24 +81,6 @@ non-deployment phase (except "gameOver") adds all of the current
 player's active units to the list of acted units (i.e. "passes" the turn).
 
 '''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #==============
@@ -406,6 +389,10 @@ class Move(PlayerAction):
     def effects(self):
         setLocation(self.u, self.B)
         setActed(getActed() | {self.u.index})
+        if currentPlayer() == "red":
+            playSound(Slinger_Move)
+        else:
+            playSound(Swordsman_Move)
 
 # Attack(p,u,v): player p's unit u attacks unit v.
 class Attack(PlayerAction):
@@ -452,7 +439,15 @@ class Attack(PlayerAction):
             if armorRoll() <= armor(self.v):
                 if damageRoll() <= damage(self.u):
                     setLocation(self.v, None)
+                    if currentPlayer() == "red":
+                        playSound(Swordsman_Die)
+                    else:
+                        playSound(Slinger_Die)
         setActed(getActed() | {self.u.index})
+        if currentPlayer() == "red":
+            playSound(Slinger_Attack)
+        else:
+            playSound(Swordsman_Attack)
 
 
 
@@ -786,17 +781,29 @@ def autoEvents():
     if getCtrl() == ("deploy", getSecondPlayer()):
         if allPlaced(army(getSecondPlayer())):
             setCtrl(("move", getFirstPlayer()))
+            if getFirstPlayer() == "red":
+                playBackGroundMusic(Slinger_Move_Music)
+            else:
+                playBackGroundMusic(Swordsman_Move_Music)
             setActed(set())
             return True
     if getCtrl()[0] == "move":
         if activeUnits(currentPlayer()) <= getActed(): # subset, in case any
                                                        # dead units in acted
             setCtrl(("attack", currentPlayer()))
+            if currentPlayer() == "red":
+                playBackGroundMusic(Slinger_Attack_Music)
+            else:
+                playBackGroundMusic(Swordsman_Attack_Music)
             setActed(set())
             return True
     if getCtrl()[0] == "attack":
         if activeUnits(currentPlayer()) <= getActed():
             setCtrl(("move", otherPlayer(currentPlayer())))
+            if currentPlayer() == "red":
+                playBackGroundMusic(Slinger_Move_Music)
+            else:
+                playBackGroundMusic(Swordsman_Move_Music)
             setActed(set())
             return True
     return False
@@ -907,6 +914,10 @@ def selectUnitProcess(C):
     i = clickedUnit.index
     if i in army(currentPlayer()) and not i in getActed():
         selectUnit(clickedUnit)
+        if currentPlayer() == "red":
+            playSound(Slinger_Acknowledgement)
+        else:
+            playSound(Swordsman_Acknowledgement)
 
 # targetProcess: cell * readState -> writeState
 # Let p be the current player and u be the currently selected unit.
@@ -1548,3 +1559,65 @@ def buttonColor():
 # textColor() is blackColor().
 def textColor():
     return blackColor()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#=============
+'''Database'''
+#=============
+
+#
+def connectDB():
+    conn = sqlite3.connect(':memory:')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#===========
+'''Sounds'''
+#===========
+
+Slinger_Acknowledgement = loadSoundFile("Slinger_Select.wav")
+Slinger_Move = loadSoundFile("Slinger_Move.wav")
+Slinger_Attack = loadSoundFile("Slinger_Attack.wav")
+Slinger_Die = loadSoundFile("Slinger_Die.wav")
+Slinger_Move_Music = "Slinger_Move_Music.wav"
+Slinger_Attack_Music = "Slinger_Attack_Music.wav"
+Swordsman_Acknowledgement = loadSoundFile("Swordsman_Select.wav")
+Swordsman_Move = loadSoundFile("Swordsman_Move.wav")
+Swordsman_Attack = loadSoundFile("Swordsman_Attack.wav")
+Swordsman_Die = loadSoundFile("Swordsman_Die.wav")
+Swordsman_Move_Music = "Swordsman_Music.wav"
+Swordsman_Attack_Music = "Swordsman_Music.wav"
