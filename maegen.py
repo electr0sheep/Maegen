@@ -2,6 +2,7 @@ from EaselLib import *
 from random import choice
 from math import sqrt
 import sqlite3
+from pygame.transform import scale
 
 '''
 MAEGEN:
@@ -92,7 +93,7 @@ player's active units to the list of acted units (i.e. "passes" the turn).
 # first return value: number of pixels wide
 # second return value: number of pixels high
 def windowDimensions():
-    return (400,500)
+    return (533,666)
 
 # otherPlayer: player -> player
 # otherPlayer(S) is "black" if S is "red" and "red" otherwise.
@@ -1396,13 +1397,9 @@ def unitImage(u):
 #   Otherwise, the "X" is of color blackColor()
 def swordsmanImage(u):
     Cell = unitLocation(u)
-    if u.index in getActed():
-        color = fadedBlack()
-    elif u == unitSelected():
-        color = green()
-    else:
-        color = blackColor()
-    return xImage(Cell, color)
+    p = topLeft(Cell)
+    return [fileImg(Swordsman_Img, p)]
+    # return xImage(Cell, color)
 
 # xImage: cell * color -> list(image)
 # If Cell is a cell and color is a color, xImage(Cell, color) is a list of
@@ -1427,13 +1424,9 @@ def xImage(Cell, color):
 #   Otherwise, the circ is of color redColor()
 def slingerImage(u):
     Cell = unitLocation(u)
-    if u.index in getActed():
-        color = fadedRed()
-    elif u == unitSelected():
-        color = green()
-    else:
-        color = redColor()
-    return [circ(cellCenter(Cell), int(cellWidth()/2), color)]
+    p = topLeft(Cell)
+    return [fileImg(Slinger_Img, p)]
+    # return [circ(cellCenter(Cell), int(cellWidth()/2), color)]
 
 # bottomLeft: cell -> point
 # If c is a cell, bottomLeft(c) is the bottom-left corner of c.
@@ -1443,6 +1436,16 @@ def bottomLeft(c):
     y = verticalOffset() - w * mapDimensions()[1]/2
     x += (c[0] - 1) * w
     y += (c[1] - 1) * w
+    return (int(x),int(y))
+
+# topLeft: cell -> point
+# If c is a cell, topLeft(c) is the top-left corner of c.
+def topLeft(c):
+    w = cellWidth()
+    x =  w * -mapDimensions()[0]/2
+    y = verticalOffset() - w * mapDimensions()[1]/2
+    x += (c[0] - 1) * w
+    y += (c[1]) * w
     return (int(x),int(y))
 
 # cellCenter: cell -> point
@@ -1621,3 +1624,30 @@ Swordsman_Attack = loadSoundFile("Swordsman_Attack.wav")
 Swordsman_Die = loadSoundFile("Swordsman_Die.wav")
 Swordsman_Move_Music = "Swordsman_Music.wav"
 Swordsman_Attack_Music = "Swordsman_Music.wav"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#===========
+'''Images'''
+#===========
+Slinger_Img = loadImageFile("Slinger.png")
+Slinger_Img = scale(Slinger_Img, (int(cellWidth()), int(cellWidth())))
+Swordsman_Img = loadImageFile("Swordsman.png")
+Swordsman_Img = scale(Swordsman_Img, (int(cellWidth()), int(cellWidth())))
