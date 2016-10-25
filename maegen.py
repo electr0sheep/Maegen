@@ -93,7 +93,7 @@ player's active units to the list of acted units (i.e. "passes" the turn).
 # first return value: number of pixels wide
 # second return value: number of pixels high
 def windowDimensions():
-    return (400,500)
+    return (533,666)
 
 # otherPlayer: player -> player
 # otherPlayer(S) is "black" if S is "red" and "red" otherwise.
@@ -898,7 +898,6 @@ def getMapInput():
             selectUnit(None)
     else:
         C = clickedCell()
-        print(C)
         if getCtrl()[0] == "deploy":
             placeNextUnit(currentPlayer(),C)
         elif unitSelected() == None:
@@ -976,13 +975,12 @@ def button2():
 def clickedCell():
     w = cellWidth()
     xRoot = -((mapDimensions()[0] % 2) * w/2) - ((int(mapDimensions()[0]/2) + 1) * w)
-    yRoot = (-verticalOffset()) - ((mapDimensions()[1] % 2) * w/2)
+    yRoot = (-verticalOffset()) - ((int(mapDimensions()[1] - 10)/2) * w)
     root = (xRoot, yRoot)
     if gameClicked():
         for x in range(1,mapDimensions()[0] + 1):
             for y in range(1,mapDimensions()[1] + 1):
                 (left, top) = pairAdd(root, (x*w, y*w))
-                # print(left)
                 if areaClicked(Rectangle(left, top, w, w)):
                     return (x,y)
     return None
