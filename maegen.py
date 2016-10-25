@@ -93,7 +93,7 @@ player's active units to the list of acted units (i.e. "passes" the turn).
 # first return value: number of pixels wide
 # second return value: number of pixels high
 def windowDimensions():
-    return (533,666)
+    return (400,500)
 
 # otherPlayer: player -> player
 # otherPlayer(S) is "black" if S is "red" and "red" otherwise.
@@ -898,6 +898,7 @@ def getMapInput():
             selectUnit(None)
     else:
         C = clickedCell()
+        print(C)
         if getCtrl()[0] == "deploy":
             placeNextUnit(currentPlayer(),C)
         elif unitSelected() == None:
@@ -973,12 +974,15 @@ def button2():
 # If a cell C's interior has been game-clicked this frame, clickedCell() is
 # C. Otherwise, clickedCell() is None.
 def clickedCell():
-    root = (windowDimensions()[0]/-2.222, windowDimensions()[1]/-6.666)
     w = cellWidth()
+    xRoot = -((mapDimensions()[0] % 2) * w/2) - ((int(mapDimensions()[0]/2) + 1) * w)
+    yRoot = (-verticalOffset()) - ((mapDimensions()[1] % 2) * w/2)
+    root = (xRoot, yRoot)
     if gameClicked():
-        for x in range(1,11):
-            for y in range(1,11):
+        for x in range(1,mapDimensions()[0] + 1):
+            for y in range(1,mapDimensions()[1] + 1):
                 (left, top) = pairAdd(root, (x*w, y*w))
+                # print(left)
                 if areaClicked(Rectangle(left, top, w, w)):
                     return (x,y)
     return None
@@ -1398,7 +1402,12 @@ def unitImage(u):
 def swordsmanImage(u):
     Cell = unitLocation(u)
     p = topLeft(Cell)
-    return [fileImg(Swordsman_Img, p)]
+    if u.index in getActed():
+        return [fileImg(Swordsman_Done_Img, p)]
+    elif u == unitSelected():
+        return [fileImg(Swordsman_Selected_Img, p)]
+    else:
+        return [fileImg(Swordsman_Img, p)]
     # return xImage(Cell, color)
 
 # xImage: cell * color -> list(image)
@@ -1425,7 +1434,12 @@ def xImage(Cell, color):
 def slingerImage(u):
     Cell = unitLocation(u)
     p = topLeft(Cell)
-    return [fileImg(Slinger_Img, p)]
+    if u.index in getActed():
+        return [fileImg(Slinger_Done_Img, p)]
+    elif u == unitSelected():
+        return [fileImg(Slinger_Selected_Img, p)]
+    else:
+        return [fileImg(Slinger_Img, p)]
     # return [circ(cellCenter(Cell), int(cellWidth()/2), color)]
 
 # bottomLeft: cell -> point
@@ -1649,5 +1663,13 @@ Swordsman_Attack_Music = "Swordsman_Music.wav"
 #===========
 Slinger_Img = loadImageFile("Slinger.png")
 Slinger_Img = scale(Slinger_Img, (int(cellWidth()), int(cellWidth())))
+Slinger_Selected_Img = loadImageFile("Slinger_Selected.png")
+Slinger_Selected_Img = scale(Slinger_Selected_Img, (int(cellWidth()), int(cellWidth())))
+Slinger_Done_Img = loadImageFile("Slinger_Done.png")
+Slinger_Done_Img = scale(Slinger_Done_Img, (int(cellWidth()), int(cellWidth())))
 Swordsman_Img = loadImageFile("Swordsman.png")
 Swordsman_Img = scale(Swordsman_Img, (int(cellWidth()), int(cellWidth())))
+Swordsman_Selected_Img = loadImageFile("Swordsman_Selected.png")
+Swordsman_Selected_Img = scale(Swordsman_Selected_Img, (int(cellWidth()), int(cellWidth())))
+Swordsman_Done_Img = loadImageFile("Swordsman_Done.png")
+Swordsman_Done_Img = scale(Swordsman_Done_Img, (int(cellWidth()), int(cellWidth())))
