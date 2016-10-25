@@ -1,5 +1,5 @@
 # Credits
-- The file maegenThacker.py was written by [Isiah Thacker](https://github.com/ThackerCI).
+- The file maegenThacker.py was written by [Isaiah Thacker](https://github.com/ThackerCI).
 - The file maegen.py represents the changes I made to the original maegenThacker.py
 
 - The music and sounds for the "slingers" came from Dune II
