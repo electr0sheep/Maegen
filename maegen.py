@@ -120,6 +120,8 @@ def buttonDimensions():
 # verticalOffset: int
 # verticalOffset() is 150.
 # game will not function if changed
+# verticalOffset represents the distance from the origin to the center of
+#  the grid
 def verticalOffset():
     return windowDimensions()[1]/6.666
 
